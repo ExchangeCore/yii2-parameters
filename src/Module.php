@@ -10,6 +10,13 @@ class Module extends \yii\base\Module
     {
         parent::init();
         $this->registerTranslations();
+        $this->setComponents(
+            [
+                'loadingWidget' => [
+                    'class' => 'exchangecore\yii2\parameters\widgets\loading\LoadingWidget'
+                ]
+            ]
+        );
     }
 
     public function registerTranslations()

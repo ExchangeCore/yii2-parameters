@@ -16,10 +16,11 @@
         "comparisons": {},
         "types": {},
         "language": {
-            "sRequired": "You cannot remove this filter, it is required",
-            "sRemoveFilter": "Remove Filter",
+            "sNoFiltersApplied": "No filters applied",
             "sNoFiltersAvailable": "No filters available",
-            "sNoFiltersApplied": "No filters applied"
+            "sRemoveFilter": "Remove Filter",
+            "sRequired": "You cannot remove this filter, it is required",
+            "sUnknownError": "An unknown error has occurred"
         },
         "ajaxSettings": {
             "type": "POST",
@@ -178,14 +179,19 @@
 
                     var jsonResponse = JSON.parse(jqXHR.responseText);
 
+                    var errorsList = '<li>' + self.settings.language.sUnknownError + '</li>';
                     var errorHtml = '<div class="alert alert-danger alert-dismissible fade in">' +
                         '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
                         '<span aria-hidden="true">&times;</span>' +
                         '</button><ul>';
-                    $.each(jsonResponse.errors, function() {
-                        errorHtml += '<li>' + this + '</li>'
-                    });
-                    errorHtml += '</ul></div>';
+                    if(typeof jsonResponse.errors !== 'undefined') {
+                        errorsList = '';
+                        $.each(jsonResponse.errors, function() {
+                            errorsList += '<li>' + this + '</li>'
+                        });
+                    }
+
+                    errorHtml += errorsList + '</ul></div>';
 
                     var alertArea = self.parametersElement.find('.alert-area');
                     alertArea.removeClass('hidden');

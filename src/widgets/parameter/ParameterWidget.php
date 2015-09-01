@@ -3,6 +3,7 @@ namespace exchangecore\yii2\parameters\widgets\parameter;
 
 use exchangecore\yii2\parameters\assets\ParameterAsset;
 use exchangecore\yii2\parameters\Comparison;
+use exchangecore\yii2\parameters\Module;
 use exchangecore\yii2\parameters\Parameter;
 use exchangecore\yii2\parameters\Type;
 use yii\base\Widget;
@@ -25,7 +26,8 @@ class ParameterWidget extends Widget
     {
         parent::init();
         if($this->loadingWidgetID === null) {
-            $this->loadingWidgetID = \Yii::$app->get('loadingWidget')->getId();
+            $loadingWidget = Module::getInstance()->get('loadingWidget');
+            $this->loadingWidgetID = $loadingWidget->getId();
         }
     }
 
