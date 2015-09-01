@@ -25,7 +25,7 @@ class ParameterCollection
             if (!$parameter->isValidComparison()) {
                 $this->addError(
                     Yii::t(
-                        'app',
+                        'modules/parameters',
                         '{comparisonType} is not a valid comparison type for {parameterDisplayName}',
                         [
                             'comparisonType' => Comparison::getComparisonLabel($parameter->getComparison()),
@@ -38,7 +38,7 @@ class ParameterCollection
             if (!$parameter->isRequiredFulfilled()) {
                 $this->addError(
                     Yii::t(
-                        'app',
+                        'modules/parameters',
                         '{parameterDisplayName} is required',
                         [
                             'parameterDisplayName' => $parameter->getDisplayName()
@@ -48,7 +48,7 @@ class ParameterCollection
             } elseif (!$parameter->isValidValue()) {
                 $this->addError(
                     Yii::t(
-                        'app',
+                        'modules/parameters',
                         '{value} is not a valid value for {parameterDisplayName}',
                         [
                             'value' => $parameter->getFormattedValue(),

@@ -27,51 +27,51 @@ class Comparison
     {
         return [
             static::EQUALS => [
-                'label' => Yii::t('app', 'equal to'),
+                'label' => Yii::t('modules/parameters', 'equal to'),
                 'valueType' => static::VALUE_NORMAL,
             ],
             static::NOT_EQUALS => [
-                'label' => Yii::t('app', 'not equal to'),
+                'label' => Yii::t('modules/parameters', 'not equal to'),
                 'valueType' => static::VALUE_NORMAL,
             ],
             static::NULL => [
-                'label' => Yii::t('app', 'is null'),
+                'label' => Yii::t('modules/parameters', 'is null'),
                 'valueType' => static::VALUE_NONE,
             ],
             static::NOT_NULL => [
-                'label' => Yii::t('app', 'is not null'),
+                'label' => Yii::t('modules/parameters', 'is not null'),
                 'valueType' => static::VALUE_NONE,
             ],
             static::STARTS_WITH => [
-                'label' => Yii::t('app', 'starts with'),
+                'label' => Yii::t('modules/parameters', 'starts with'),
                 'valueType' => static::VALUE_NORMAL,
             ],
             static::ENDS_WITH => [
-                'label' => Yii::t('app', 'ends with'),
+                'label' => Yii::t('modules/parameters', 'ends with'),
                 'valueType' => static::VALUE_NORMAL,
             ],
             static::CONTAINS => [
-                'label' => Yii::t('app', 'contains'),
+                'label' => Yii::t('modules/parameters', 'contains'),
                 'valueType' => static::VALUE_NORMAL,
             ],
             static::BEFORE => [
-                'label' => Yii::t('app', 'before'),
+                'label' => Yii::t('modules/parameters', 'before'),
                 'valueType' => static::VALUE_NORMAL,
             ],
             static::AFTER => [
-                'label' => Yii::t('app', 'after'),
+                'label' => Yii::t('modules/parameters', 'after'),
                 'valueType' => static::VALUE_NORMAL,
             ],
             static::BETWEEN => [
-                'label' => Yii::t('app', 'between'),
+                'label' => Yii::t('modules/parameters', 'between'),
                 'valueType' => static::VALUE_DOUBLE,
             ],
             static::GREATER_THAN => [
-                'label' => Yii::t('app', 'is greater than'),
+                'label' => Yii::t('modules/parameters', 'is greater than'),
                 'valueType' => static::VALUE_NORMAL,
             ],
             static::LESS_THAN => [
-                'label' => Yii::t('app', 'is less than'),
+                'label' => Yii::t('modules/parameters', 'is less than'),
                 'valueType' => static::VALUE_NORMAL,
             ]
         ];

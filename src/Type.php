@@ -106,8 +106,8 @@ class Type extends Object
                     'inputType' => 'select',
                     'valueOptions' => [
                         '' => '',
-                        '0' => Yii::t('app', 'False'),
-                        '1' => Yii::t('app', 'True')
+                        '0' => Yii::t('modules/parameters', 'False'),
+                        '1' => Yii::t('modules/parameters', 'True')
                     ]
                 ],
             ]
