@@ -59,7 +59,7 @@ class ParameterWidget extends Widget
         $options = [];
         $options['ajaxSettings']['url'] = Url::to($this->url);
         $options['ajaxSettings']['type'] = $this->ajaxRequestType;
-        $options['autoRun'] = true;
+        $options['autoRun'] = $this->autoRun;
         $options['autoShow'] = $this->autoShow;
         $options['comparisons'] = Comparison::getComparisonList();
         $options['types'] = Type::getTypeList();
