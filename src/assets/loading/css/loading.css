@@ -1,0 +1,12 @@
+
+.loader .ui-progressbar {
+    position: relative;
+}
+
+.loader .ui-progressbar-value {
+    background: #337ab7
+}
+
+.loader .ui-dialog-titlebar-close {
+    visibility: hidden;
+}

@@ -1,0 +1,16 @@
+{
+    "name": "exchangecore/yii2-parameters",
+    "description": "Yii 2 Parameter Interface",
+    "keywords": ["yii2", "parameters"],
+    "homepage": "http://www.exchangecore.com",
+    "type": "yii2-extension",
+    "license": "MIT",
+    "require": {
+        "php": ">=5.4.0",
+        "yiisoft/yii2": "*",
+        "bower-asset/font-awesome": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {"exchangecore\\yii2\\parameters\\": "src/"}
+    }
+}
