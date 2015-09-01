@@ -1,5 +1,5 @@
 <?php
-namespace exchangecore\yii2\parameters\widgets\parameter;
+namespace exchangecore\yii2\parameters;
 
 use Yii;
 

@@ -3,7 +3,6 @@
  * @var \yii\web\View $this
  * @var string $widgetID
  * @var bool $autoShow
- * @var \app\widgets\parameter\Parameter[] $displayParameters
  */
 use yii\helpers\Html;
 

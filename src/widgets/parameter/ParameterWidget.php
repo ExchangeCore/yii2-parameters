@@ -2,6 +2,9 @@
 namespace exchangecore\yii2\parameters\widgets\parameter;
 
 use exchangecore\yii2\parameters\assets\ParameterAsset;
+use exchangecore\yii2\parameters\Comparison;
+use exchangecore\yii2\parameters\Parameter;
+use exchangecore\yii2\parameters\Type;
 use yii\base\Widget;
 use yii\helpers\Json;
 use yii\helpers\Url;
