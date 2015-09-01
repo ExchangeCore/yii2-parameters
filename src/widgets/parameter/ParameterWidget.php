@@ -6,6 +6,7 @@ use exchangecore\yii2\parameters\Comparison;
 use exchangecore\yii2\parameters\Module;
 use exchangecore\yii2\parameters\Parameter;
 use exchangecore\yii2\parameters\Type;
+use Yii;
 use yii\base\Widget;
 use yii\helpers\Json;
 use yii\helpers\Url;
@@ -42,7 +43,7 @@ class ParameterWidget extends Widget
         }
 
         $view->registerJs(
-            "$('#parameter-" . $this->getId() . "').ParameterWidget(" . $this->getParameterWidgetOptions() . ");"
+            "$('#" . $this->getId() . "').ParameterWidget(" . $this->getParameterWidgetOptions() . ");"
         );
 
         return $this->render(
@@ -64,6 +65,7 @@ class ParameterWidget extends Widget
         $options['comparisons'] = Comparison::getComparisonList();
         $options['types'] = Type::getTypeList();
         $options['loaderElement'] = '#' . $this->loadingWidgetID;
+        $options['language'] = $this->getLanguageStrings();
         foreach($this->parameters AS $parameter) {
             /** @var Parameter $parameter */
             if ($parameter->getKey() !== null) {
@@ -74,6 +76,17 @@ class ParameterWidget extends Widget
         }
 
         return Json::htmlEncode($options);
+    }
+
+    protected function getLanguageStrings()
+    {
+        return [
+            'sNoFiltersApplied' => Yii::t('modules/parameters', 'No filters applied'),
+            'sNoFiltersAvailable' => Yii::t('modules/parameters', 'No filters available'),
+            'sRemoveFilter' => Yii::t('modules/parameters', 'Remove Filter'),
+            'sRequired' => Yii::t('modules/parameters', 'You cannot remove this filter, it is required'),
+            'sUnknownError' => Yii::t('modules/parameters', 'An unknown error has occurred')
+        ];
     }
 
 } 

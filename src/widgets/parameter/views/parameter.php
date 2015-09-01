@@ -11,7 +11,7 @@ $submitButton = Html::submitButton(
     ['class' => 'btn btn-lg btn-primary btn-submit hidden-print']
 );
 ?>
-<div id="parameter-<?= $widgetID; ?>">
+<div id="<?= $widgetID; ?>">
     <form class="parameter-form">
         <div class="row">
             <div class="col-sm-12">
