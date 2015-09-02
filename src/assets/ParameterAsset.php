@@ -16,10 +16,6 @@ class ParameterAsset extends AssetBundle
         'yii\bootstrap\BootstrapPluginAsset',
     ];
 
-    public $publishOptions = [
-        'forceCopy' => true,
-    ];
-
     public function init() {
         $this->sourcePath = __DIR__ . '/parameter';
         parent::init();

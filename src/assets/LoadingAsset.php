@@ -15,10 +15,6 @@ class LoadingAsset extends AssetBundle
         'yii\jui\JuiAsset'
     ];
 
-    public $publishOptions = [
-        'forceCopy' => true,
-    ];
-
     public function init() {
         $this->sourcePath = __DIR__ . '/loading';
         parent::init();
