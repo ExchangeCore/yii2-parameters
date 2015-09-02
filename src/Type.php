@@ -40,7 +40,7 @@ class Type extends Object
             ],
             static::DATE_TYPE => [
                 'comparisons' => static::getDateTypeComparisons(),
-                'formatter' => 'date',
+                'formatter' => ['date', 'php:Y-m-d'],
                 'options' => [
                     'inputType' => 'date',
                     'language' => Yii::$app->language,
