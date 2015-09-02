@@ -147,6 +147,7 @@
 
             var data = {}, paramCounter = 0;
 
+            var printCriteriaHtml = '<ul>';
             $.each(self._parameters, function (key, param) {
                 if (param.shown) {
                     data['param' + paramCounter] = {
@@ -154,9 +155,17 @@
                         "comparison": param.comparison,
                         "values": param.value
                     };
+                    printCriteriaHtml += '<li>' +
+                        param.displayName + ' ' +
+                        self.getParameterComparison(param).label + ' ' +
+                        self.getPrintValueHtml(param) +
+                        '</li>';
                     paramCounter++;
                 }
             });
+            printCriteriaHtml += '</ul>';
+
+            self.element.find('.print-selection-criteria').html(printCriteriaHtml);
 
             var ajaxOptions = $.extend(self.settings.ajaxSettings, {
                 "success": function (data, textStatus, jqXHR) {
@@ -378,6 +387,19 @@
 
 
             return fieldHtml;
+        },
+
+        getPrintValueHtml: function(parameter) {
+            var self = this;
+            var html = '';
+            if (self.getParameterComparison(parameter).valueType == 'two') {
+                html += parameter.value[0] + ' - ' + parameter.value[1];
+            } else if (self.getParameterComparison(parameter).valueType == 'none') {
+            } else {
+                html += parameter.value[0]
+            }
+
+            return html;
         },
 
         getParameterHtml: function (parameter) {
