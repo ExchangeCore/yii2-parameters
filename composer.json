@@ -8,7 +8,8 @@
     "require": {
         "php": ">=5.4.0",
         "yiisoft/yii2": "*",
-        "bower-asset/font-awesome": "dev-master"
+        "bower-asset/font-awesome": "dev-master",
+        "bower-asset/select2": "4.*"
     },
     "autoload": {
         "psr-4": {"exchangecore\\yii2\\parameters\\": "src/"}

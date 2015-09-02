@@ -2,6 +2,7 @@
 namespace exchangecore\yii2\parameters\widgets\parameter;
 
 use exchangecore\yii2\parameters\assets\ParameterAsset;
+use exchangecore\yii2\parameters\assets\Select2Asset;
 use exchangecore\yii2\parameters\Comparison;
 use exchangecore\yii2\parameters\Module;
 use exchangecore\yii2\parameters\Parameter;
@@ -41,6 +42,7 @@ class ParameterWidget extends Widget
             $assetBundle = DatePickerLanguageAsset::register($view);
             $assetBundle->language = \Yii::$app->language;
         }
+        Select2Asset::register($view);
 
         $view->registerJs(
             "$('#" . $this->getId() . "').ParameterWidget(" . $this->getParameterWidgetOptions() . ");"

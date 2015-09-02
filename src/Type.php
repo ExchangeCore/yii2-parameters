@@ -50,7 +50,22 @@ class Type extends Object
                             var datePicker = $(this);
                             var parameterValue = datePicker.prev(".parameter-value");
 
-                            var dt =  new Date($(datePicker).val());
+                            function parseISO8601(dateStringInRange) {
+                                var isoExp = /^\s*(\d{4})-(\d\d)-(\d\d)\s*$/,
+                                    date = new Date(NaN), month,
+                                    parts = isoExp.exec(dateStringInRange);
+
+                                if(parts) {
+                                  month = +parts[2];
+                                  date.setFullYear(parts[1], month - 1, parts[3]);
+                                  if(month != date.getMonth() + 1) {
+                                    date.setTime(NaN);
+                                  }
+                                }
+                                return date;
+                              }
+
+                            var dt = parseISO8601(datePicker.val());
                             dt.setTime( dt.getTime() + dt.getTimezoneOffset()*60*1000 );
                             var options = $.extend(
                                 {
@@ -94,6 +109,9 @@ class Type extends Object
                 'formatter' => 'raw',
                 'options' => [
                     'inputType' => 'select',
+                    'renderScript' => new JsExpression('function(parameter) {
+                        parameter.row.find(".parameter-value").select2({ "width": "100%" });
+                    }'),
                     'valueOptions' => [
                         '' => ''
                     ]
@@ -122,7 +140,7 @@ class Type extends Object
 
     protected static function getListTypeComparisons()
     {
-        return Comparison::EQUALS | Comparison::NOT_EQUALS | Comparison::NULL | Comparison::NOT_NULL;
+        return Comparison::EQUALS | Comparison::ONE_OF;
     }
 
     protected static function getDateTypeComparisons()

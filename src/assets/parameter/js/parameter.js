@@ -340,6 +340,10 @@
                 parameterHtml += '</div>';
             } else if (this.getParameterComparison(parameter).valueType == 'none') {
                 parameterHtml += '<div class="col-md-6 col-sm-12 form-group"></div>';
+            } else if (this.getParameterComparison(parameter).valueType == 'multiple') {
+                parameterHtml += '<div class="col-md-6 col-sm-12 form-group">';
+                parameterHtml += this.getValueHtml(parameter);
+                parameterHtml += '</div>';
             } else {
                 parameterHtml += '<div class="col-md-6 col-sm-12 form-group" data-valueindex="0">';
                 parameterHtml += this.getValueHtml(parameter);
@@ -366,12 +370,18 @@
 
                 //load the parameter specified options if they exist
                 if (parameter.valueOptions) {
-                    options = valueOptions
+                    options = parameter.valueOptions
                 }
 
-                fieldHtml += '<select class="form-control parameter-value" name="' + parameter.key + '[value][]"' + readOnlyHtml + '>';
+                var multiple = '';
+
+                if(this.getParameterComparison(parameter).valueType == 'multiple') {
+                    multiple = ' multiple="multiple"';
+                }
+
+                fieldHtml += '<select class="form-control parameter-value" name="' + parameter.key + '"' + readOnlyHtml + multiple + '>';
                 $.each(options, function (valueKey, valueText) {
-                    var selected = (parameter.value[valueIndex] == valueKey) ? ' selected="selected"' : '';
+                    var selected = $.inArray(valueKey, parameter.value) > -1 ? ' selected="selected"' : '';
                     fieldHtml += '<option value="' + valueKey + '"' + selected + '>' + valueText + '</option>';
                 });
                 fieldHtml += '</select>'
@@ -395,6 +405,8 @@
             if (self.getParameterComparison(parameter).valueType == 'two') {
                 html += parameter.value[0] + ' - ' + parameter.value[1];
             } else if (self.getParameterComparison(parameter).valueType == 'none') {
+            } else if (self.getParameterComparison(parameter).valueType == 'multiple') {
+                html += parameter.value
             } else {
                 html += parameter.value[0]
             }
@@ -480,7 +492,11 @@
 
                 var formGroup = $(this).closest('.form-group');
 
-                parameter.value[formGroup.data('valueindex')] = $(this).val();
+                if (formGroup.attr('data-valueindex')) {
+                    parameter.value[formGroup.data('valueindex')] = $(this).val();
+                } else {
+                    parameter.value = $(this).val()
+                }
 
                 self.triggerEvent("valueChange", options);
             });

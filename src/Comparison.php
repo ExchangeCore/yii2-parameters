@@ -17,11 +17,12 @@ class Comparison
     const BETWEEN = 512;
     const GREATER_THAN = 1024;
     const LESS_THAN = 2048;
+    const ONE_OF = 4096;
 
     const VALUE_NONE = 'none';
     const VALUE_NORMAL = 'normal';
     const VALUE_DOUBLE = 'two';
-    //const VALUE_MODAL = 'modal'; todo: someday implement a modal lookup option
+    const VALUE_MULTIPLE = 'multiple';
 
     public static function getComparisonList()
     {
@@ -73,6 +74,10 @@ class Comparison
             static::LESS_THAN => [
                 'label' => Yii::t('modules/parameters', 'is less than'),
                 'valueType' => static::VALUE_NORMAL,
+            ],
+            static::ONE_OF => [
+                'label' => Yii::t('modules/parameters', 'is one of'),
+                'valueType' => static::VALUE_MULTIPLE
             ]
         ];
     }
