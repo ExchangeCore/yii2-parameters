@@ -186,7 +186,12 @@
                         "self": self
                     };
 
-                    var jsonResponse = JSON.parse(jqXHR.responseText);
+
+                    var jsonResponse = {};
+                    try{
+                        jsonResponse = JSON.parse(jqXHR.responseText);
+                    }catch(e){
+                    }
 
                     var errorsList = '<li>' + self.settings.language.sUnknownError + '</li>';
                     var errorHtml = '<div class="alert alert-danger alert-dismissible fade in">' +

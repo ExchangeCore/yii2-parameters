@@ -19,6 +19,15 @@ class ParameterCollection
         $this->parameters[$parameter->getKey()] = $parameter;
     }
 
+    /**
+     * @param string $parameterKey
+     * @return Parameter|null
+     */
+    public function getParameter($parameterKey)
+    {
+        return isset($this->parameters[$parameterKey]) ? $this->parameters[$parameterKey] : null;
+    }
+
     public function validateInput()
     {
         foreach($this->parameters as $parameter) {
@@ -51,7 +60,7 @@ class ParameterCollection
                         'modules/parameters',
                         '{value} is not a valid value for {parameterDisplayName}',
                         [
-                            'value' => $parameter->getFormattedValue(),
+                            'value' => implode(',', $parameter->getFormattedValue()),
                             'parameterDisplayName' => $parameter->getDisplayName()
                         ]
                     )
@@ -81,17 +90,20 @@ class ParameterCollection
      */
     public function afterRetrievalProcess(&$data)
     {
-        $filters = [];
+        $filterParameters = [];
         foreach($this->parameters as $param) {
             if ($param->getHasInput() && $param->getAfterDataFilter() instanceof \Closure) {
-                $filters[] = $param->getAfterDataFilter();
+                $filterParameters[] = $param;
             }
         }
 
-        if(!empty($filters)) {
+        if(!empty($filterParameters)) {
             foreach ($data AS $key => $row) {
-                foreach ($filters as $filter) {
-                    if(!$filter($row)) {
+                foreach ($filterParameters as $param) {
+                    /** @var Parameter $param*/
+                    $filter = $param->getAfterDataFilter();
+                    $removeRow = !$filter($row, $param);
+                    if($removeRow) {
                         unset($data[$key]);
                         break;
                     }
@@ -113,7 +125,7 @@ class ParameterCollection
                     [
                         '>',
                         $parameter->getDatabaseFilterField(),
-                        $parameter->getValue()[0]
+                        $parameter->getDatabaseFilterValue()[0]
                     ]
                 );
                 break;
@@ -123,7 +135,7 @@ class ParameterCollection
                     [
                         '<',
                         $parameter->getDatabaseFilterField(),
-                        $parameter->getValue()[0]
+                        $parameter->getDatabaseFilterValue()[0]
                     ]
                 );
                 break;
@@ -132,8 +144,8 @@ class ParameterCollection
                     [
                         'between',
                         $parameter->getDatabaseFilterField(),
-                        $parameter->getValue()[0],
-                        $parameter->getValue()[1]
+                        $parameter->getDatabaseFilterValue()[0],
+                        $parameter->getDatabaseFilterValue()[1]
                     ]
                 );
                 break;
@@ -142,7 +154,7 @@ class ParameterCollection
                     [
                         'like',
                         $parameter->getDatabaseFilterField(),
-                        $parameter->getValue()[0]
+                        $parameter->getDatabaseFilterValue()[0]
                     ]
                 );
                 break;
@@ -150,8 +162,8 @@ class ParameterCollection
                 $queryBuilder->andWhere(
                     [
                         'like',
-                        '%' . $parameter->getDatabaseFilterField(),
-                        $parameter->getValue()[0],
+                        $parameter->getDatabaseFilterField(),
+                        $parameter->getDatabaseFilterValue()[0]. '%',
                         false
                     ]
                 );
@@ -160,8 +172,8 @@ class ParameterCollection
                 $queryBuilder->andWhere(
                     [
                         'like',
-                        $parameter->getDatabaseFilterField() . '%',
-                        $parameter->getValue()[0],
+                        $parameter->getDatabaseFilterField(),
+                        '%' . $parameter->getDatabaseFilterValue()[0],
                         false
                     ]
                 );
@@ -173,10 +185,17 @@ class ParameterCollection
                 $queryBuilder->andWhere(['not', [$parameter->getDatabaseFilterField() => null]]);
                 break;
             case Comparison::EQUALS:
-                $queryBuilder->andWhere([$parameter->getDatabaseFilterField() => $parameter->getValue()[0]]);
+                $queryBuilder->andWhere(
+                    [$parameter->getDatabaseFilterField() => $parameter->getDatabaseFilterValue()[0]]
+                );
                 break;
             case Comparison::NOT_EQUALS:
-                $queryBuilder->andWhere(['not', [$parameter->getDatabaseFilterField() => $parameter->getValue()[0]]]);
+                $queryBuilder->andWhere(
+                    ['not', [$parameter->getDatabaseFilterField() => $parameter->getDatabaseFilterValue()[0]]]
+                );
+                break;
+            case Comparison::ONE_OF:
+                $queryBuilder->andWhere(['in', $parameter->getDatabaseFilterField(), $parameter->getDatabaseFilterValue()]);
                 break;
         }
     }

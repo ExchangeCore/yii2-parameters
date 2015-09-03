@@ -16,9 +16,11 @@ class Parameter extends Object
     protected $valueOptions;
     protected $key;
     protected $databaseFilterField;
+    /** @var null|\Closure|array */
+    protected $databaseFilterValue;
     protected $displayName;
     protected $modifiable = true;
-    protected $afterDataFilter = false;
+    protected $afterDataFilter = true;
     protected $hasInput = false;
 
     /**
@@ -358,6 +360,8 @@ class Parameter extends Object
         } elseif (Comparison::VALUE_DOUBLE == $comparisonValueType) {
             $notEmpty = isset($this->getValue()[0]) && $this->getValue()[0] !== null && $this->getValue()[0] !== ''
                 && isset($this->getValue()[1]) && $this->getValue()[1] !== null && $this->getValue()[1] !== '';
+        } elseif (Comparison::VALUE_MULTIPLE == $comparisonValueType) {
+            $notEmpty = !empty($this->getValue());
         } else {
             $notEmpty = true;
         }
@@ -397,6 +401,29 @@ class Parameter extends Object
     public function setDatabaseFilterField($databaseFilterField)
     {
         $this->databaseFilterField = $databaseFilterField;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getDatabaseFilterValue()
+    {
+        if($this->databaseFilterValue === null) {
+            return $this->getValue();
+        } elseif ($this->databaseFilterValue instanceof \Closure) {
+            return $this->databaseFilterValue->__invoke($this);
+        }
+        return $this->databaseFilterValue;
+    }
+
+    /**
+     * @param mixed $databaseFilterValue
+     * @return $this
+     */
+    public function setDatabaseFilterValue($databaseFilterValue)
+    {
+        $this->databaseFilterValue = $databaseFilterValue;
         return $this;
     }
 
