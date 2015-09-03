@@ -10,6 +10,7 @@
     $.ec.parameterWidget.defaults = {
         "autoRun": false,
         "autoShow": false,
+        "collapseOnRun": true,
         "runUrl": "#",
         "loaderElement": null,
         "parameters": {},
@@ -144,6 +145,12 @@
                 self._loaderElement.data('LoadingWidget').startLoading();
             }
             self.triggerEvent('submit', self);
+
+            if (self.settings.collapseOnRun) {
+                self.parametersElement.collapse("hide");
+            }
+
+            self.parametersElement.find('.alert').alert('close');
 
             var data = {}, paramCounter = 0;
 
