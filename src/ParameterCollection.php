@@ -181,7 +181,7 @@ class ParameterCollection
         }
     }
 
-    protected function addError($errorMessage)
+    public function addError($errorMessage)
     {
         $this->errors[] = $errorMessage;
     }
