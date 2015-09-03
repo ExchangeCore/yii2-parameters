@@ -13,15 +13,13 @@ $submitButton = Html::submitButton(
 ?>
 <div id="<?= $widgetID; ?>">
     <form class="parameter-form">
-        <div class="row">
-            <div class="col-sm-12">
-                <?= $submitButton; ?>
-                <?=
-                Html::button(
-                    '<i class="fa fa-lg fa-list-alt"></i> ' . Yii::t('modules/parameters', 'Parameters'),
-                    ['class' => 'btn btn-lg btn-primary btn-parameters-collapse hidden-print']
-                ); ?>
-            </div>
+        <div>
+            <?= $submitButton; ?>
+            <?=
+            Html::button(
+                '<i class="fa fa-lg fa-list-alt"></i> ' . Yii::t('modules/parameters', 'Parameters'),
+                ['class' => 'btn btn-lg btn-primary btn-parameters-collapse hidden-print']
+            ); ?>
         </div>
         <div class="row visible-print-inline print-selection-criteria"></div>
         <br/>
