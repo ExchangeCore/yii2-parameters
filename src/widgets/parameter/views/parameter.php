@@ -13,7 +13,7 @@ $submitButton = Html::submitButton(
 ?>
 <div id="<?= $widgetID; ?>">
     <form class="parameter-form">
-        <div>
+        <div class="parameter-buttons">
             <?= $submitButton; ?>
             <?=
             Html::button(
