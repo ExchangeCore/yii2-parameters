@@ -174,7 +174,9 @@
 
             self.element.find('.print-selection-criteria').html(printCriteriaHtml);
 
-            var ajaxOptions = $.extend(self.settings.ajaxSettings, {
+            var opts = $.extend({}, self.settings.ajaxSettings);
+            opts['data'] = {};
+            var ajaxOptions = $.extend(opts, {
                 "success": function (data, textStatus, jqXHR) {
                     var options = {
                         "data": data,
