@@ -223,7 +223,10 @@
                         alertArea.addClass('hidden');
                     });
 
-                    self.parametersElement.collapse("show");
+                    self.parametersElement.on('hidden.bs.collapse', function(e) {
+                        self.parametersElement.collapse("show");
+                        self.parametersElement.off(e);
+                    });
                     self.triggerEvent('ajaxError', options);
                 },
                 "complete": function (jqXHR, textStatus) {
