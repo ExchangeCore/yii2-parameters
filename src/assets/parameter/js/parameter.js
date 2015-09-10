@@ -195,7 +195,6 @@
                         "self": self
                     };
 
-
                     var jsonResponse = {};
                     try{
                         jsonResponse = JSON.parse(jqXHR.responseText);
@@ -222,11 +221,14 @@
                     alertArea.children('.alert').on('closed.bs.alert', function(){
                         alertArea.addClass('hidden');
                     });
-
-                    self.parametersElement.on('hidden.bs.collapse', function(e) {
+                    if ( !self.parametersElement.hasClass("collapse")) {
+                        self.parametersElement.on('hidden.bs.collapse', function(e) {
+                            self.parametersElement.collapse("show");
+                            self.parametersElement.off(e);
+                        });
+                    } else {
                         self.parametersElement.collapse("show");
-                        self.parametersElement.off(e);
-                    });
+                    }
                     self.triggerEvent('ajaxError', options);
                 },
                 "complete": function (jqXHR, textStatus) {
