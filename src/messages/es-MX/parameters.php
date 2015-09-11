@@ -18,16 +18,16 @@
  */
 return [
     'Add Filter' => 'Agregar filtro',
-    'An unknown error has occurred' => 'Un error desconocido a ocurrido',
+    'An unknown error has occurred' => 'Un error desconocido ha ocurrido',
     'False' => 'falso',
-    'Loading Please Wait...' => 'por favor espere...',
+    'Loading Please Wait...' => 'Cargando por favor espere...',
     'No filters applied' => 'No hay filtros aplicados',
     'No filters available' => 'No hay filtros disponibles',
     'Parameters' => 'Parámetro',
-    'Remove Filter' => 'Quite el filtro',
+    'Remove Filter' => 'Remover el Filtro',
     'Run' => 'Ejecutar',
     'True' => 'cierto',
-    'You cannot remove this filter, it is required' => 'No se puede quitar este filtro, se requiere',
+    'You cannot remove this filter, it is required' => 'No se puede remover este filtro, se requiere',
     'after' => 'después',
     'before' => 'antes',
     'between' => 'entre',
@@ -45,3 +45,4 @@ return [
     '{parameterDisplayName} is required' => 'Se requiere {parameterDisplayName}',
     '{value} is not a valid value for {parameterDisplayName}' => '{value} no es un valor válido para {parameterDisplayName}',
 ];
+
