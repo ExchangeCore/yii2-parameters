@@ -5,7 +5,7 @@ use yii\web\AssetBundle;
 
 class FontAwesomeAsset extends AssetBundle
 {
-    public $sourcePath = '@bower/components-font-awesome/';
+    public $sourcePath = '@bower/font-awesome/';
 
     public $publishOptions = [
         'only' => [
