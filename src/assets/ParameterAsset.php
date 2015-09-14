@@ -5,7 +5,9 @@ use yii\web\AssetBundle;
 
 class ParameterAsset extends AssetBundle
 {
-    public $css = [];
+    public $css = [
+        'css/parameter.css'
+    ];
 
     public $js = [
         'js/parameter.js',
