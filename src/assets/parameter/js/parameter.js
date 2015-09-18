@@ -53,7 +53,7 @@
         this.element = $(element);
         this.parametersElement = this.element.find('.parameters');
 
-        this.settings = $.extend({}, $.ec.parameterWidget.defaults, options);
+        this.settings = $.extend(true, {}, $.ec.parameterWidget.defaults, options);
         this._defaults = $.ec.parameterWidget.defaults;
         this._parameters = {};
         this._events = {};
@@ -176,7 +176,7 @@
 
             var opts = $.extend({}, self.settings.ajaxSettings);
             opts['data'] = {};
-            var ajaxOptions = $.extend(opts, {
+            $.extend(true, opts, {
                 "success": function (data, textStatus, jqXHR) {
                     var options = {
                         "data": data,
@@ -245,9 +245,9 @@
                     self.element.find('.btn-submit').prop('disabled', false);
                 }
             });
-            ajaxOptions.data = $.extend(ajaxOptions.data, data);
+            $.extend(opts.data, data);
 
-            $.ajax(ajaxOptions);
+            $.ajax(opts);
         },
 
         removeParameter: function (parameter) {
