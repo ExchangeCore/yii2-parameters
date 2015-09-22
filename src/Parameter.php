@@ -377,7 +377,7 @@ class Parameter extends Object
 
         if($this->getValueOptions() !== null) {
             foreach($this->getValue() as $val) {
-                if (!in_array($val, $this->getValueOptions())) {
+                if (!in_array($val, array_keys($this->getValueOptions()))) {
                     return false;
                 }
             }
