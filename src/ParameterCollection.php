@@ -98,7 +98,7 @@ class ParameterCollection
         }
 
         if(!empty($filterParameters)) {
-            foreach ($data AS $key => $row) {
+            foreach ($data AS $key => &$row) {
                 foreach ($filterParameters as $param) {
                     /** @var Parameter $param*/
                     $filter = $param->getAfterDataFilter();
