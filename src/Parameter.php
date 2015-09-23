@@ -15,6 +15,7 @@ class Parameter extends Object
     protected $value;
     protected $valueOptions;
     protected $key;
+    protected $additionalDatabaseFilter;
     protected $databaseFilterField;
     /** @var null|\Closure|array */
     protected $databaseFilterValue;
@@ -22,6 +23,7 @@ class Parameter extends Object
     protected $modifiable = true;
     protected $afterDataFilter = true;
     protected $hasInput = false;
+    protected $input = null;
 
     /**
      * @return \StdClass An object to be encoded for the Parameter widget js library
@@ -84,7 +86,7 @@ class Parameter extends Object
      */
     public function getValue()
     {
-        if(!is_array($this->value)) {
+        if (!is_array($this->value)) {
             $arr[] = $this->value;
             $this->value = $arr;
         }
@@ -143,8 +145,8 @@ class Parameter extends Object
     public function getDisplayFormatter()
     {
 
-        if($this->displayFormatter === null) {
-            if(isset(Type::getTypeList()[$this->getTypeHandle()]['formatter'])) {
+        if ($this->displayFormatter === null) {
+            if (isset(Type::getTypeList()[$this->getTypeHandle()]['formatter'])) {
                 return Type::getTypeList()[$this->getTypeHandle()]['formatter'];
             }
 
@@ -167,7 +169,7 @@ class Parameter extends Object
     public function getFormattedValue()
     {
         $values = [];
-        foreach($this->getValue() as $value) {
+        foreach ($this->getValue() as $value) {
             $value = $value === null ? '' : $value;
             $values[] = \Yii::$app->formatter->format($value, $this->getDisplayFormatter());
         }
@@ -296,16 +298,14 @@ class Parameter extends Object
      */
     public function getHasInput()
     {
-        return $this->hasInput;
+        return $this->getInput() !== null;
     }
 
-    /**
-     * @param boolean $hasInput
-     */
-    public function setHasInput($hasInput)
+    public function getInput()
     {
-        $this->hasInput = $hasInput ? true : false;
+        return $this->input;
     }
+
 
     /**
      * This function takes in an array of input (usually from a POST or GET request) in the format of
@@ -324,11 +324,14 @@ class Parameter extends Object
     public function parseFromInput($input)
     {
         foreach ($input as $key => $var) {
-            if(strpos($key, 'param') === 0) {
-                if($var['key'] == $this->getKey()) {
+            if (strpos($key, 'param') === 0 && isset($var['key'])
+                && isset($var['values']) && isset($var['comparison'])
+            ) {
+                if ($var['key'] == $this->getKey()) {
+                    $this->input = $var;
                     $this->setValue($var['values']);
-                    $this->setComparison((int) $var['comparison']);
-                    $this->setHasInput(true);
+                    $this->setComparison((int)$var['comparison']);
+                    $this->setInitialize(true);
                     break;
                 }
             }
@@ -348,12 +351,12 @@ class Parameter extends Object
 
     public function isRequiredFulfilled()
     {
-        if(!$this->getIsRequired()) {
+        if (!$this->getIsRequired()) {
             return true;
         }
 
         $comparisonValueType = Comparison::getComparisonValueType($this->getComparison());
-        if(Comparison::VALUE_NONE == $comparisonValueType) {
+        if (Comparison::VALUE_NONE == $comparisonValueType) {
             $notEmpty = true;
         } elseif (Comparison::VALUE_NORMAL == $comparisonValueType) {
             $notEmpty = isset($this->getValue()[0]) && $this->getValue()[0] !== null && $this->getValue()[0] !== '';
@@ -375,8 +378,8 @@ class Parameter extends Object
             return false;
         }
 
-        if($this->getValueOptions() !== null) {
-            foreach($this->getValue() as $val) {
+        if ($this->getValueOptions() !== null) {
+            foreach ($this->getValue() as $val) {
                 if (!in_array($val, array_keys($this->getValueOptions()))) {
                     return false;
                 }
@@ -409,7 +412,7 @@ class Parameter extends Object
      */
     public function getDatabaseFilterValue()
     {
-        if($this->databaseFilterValue === null) {
+        if ($this->databaseFilterValue === null) {
             return $this->getValue();
         } elseif ($this->databaseFilterValue instanceof \Closure) {
             return $this->databaseFilterValue->__invoke($this);
@@ -425,6 +428,22 @@ class Parameter extends Object
     {
         $this->databaseFilterValue = $databaseFilterValue;
         return $this;
+    }
+
+    /**
+     * @param \Closure $closure This should be a function which takes in an ActiveQuery parameter so that it can be
+     *          modified. Such as function(&$queryBuilder) { $queryBuilder->joinWith(['someRelation']); }
+     * @return $this
+     */
+    public function setAdditionalDatabaseFilter($closure)
+    {
+        $this->additionalDatabaseFilter = $closure;
+        return $this;
+    }
+
+    public function getAdditionalDatabaseFilter()
+    {
+        return $this->additionalDatabaseFilter;
     }
 
 } 

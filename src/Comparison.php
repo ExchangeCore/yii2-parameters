@@ -3,7 +3,7 @@ namespace exchangecore\yii2\parameters;
 
 use Yii;
 
-class Comparison 
+class Comparison
 {
     const EQUALS = 1;
     const NOT_EQUALS = 2;

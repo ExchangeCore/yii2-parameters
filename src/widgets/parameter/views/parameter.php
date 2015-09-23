@@ -23,7 +23,8 @@ $submitButton = Html::submitButton(
         </div>
         <div class="row visible-print-inline print-selection-criteria"></div>
         <br/>
-        <div class="hidden-print parameters panel panel-primary collapse <?= $autoShow ? 'in' : '';?>">
+
+        <div class="hidden-print parameters panel panel-primary collapse <?= $autoShow ? 'in' : ''; ?>">
             <div class="panel-heading"><?= Yii::t('modules/parameters', 'Parameters') ?></div>
             <div class="panel-body">
                 <div class="alert-area hidden">
@@ -31,7 +32,8 @@ $submitButton = Html::submitButton(
             </div>
             <div class="panel-footer">
                 <div class="pull-right">
-                    <?= Html::button(
+                    <?=
+                    Html::button(
                         '<i class="fa fa-lg fa-plus-circle"></i> ' . Yii::t('modules/parameters', 'Add Filter'),
                         ['class' => 'btn btn-lg btn-primary action-add-filter']
                     );

@@ -28,9 +28,14 @@ class ParameterCollection
         return isset($this->parameters[$parameterKey]) ? $this->parameters[$parameterKey] : null;
     }
 
+    public function getParameters()
+    {
+        return $this->parameters;
+    }
+
     public function validateInput()
     {
-        foreach($this->parameters as $parameter) {
+        foreach ($this->parameters as $parameter) {
             if (!$parameter->isValidComparison()) {
                 $this->addError(
                     Yii::t(
@@ -78,7 +83,7 @@ class ParameterCollection
     public function attachQueryBuilder(&$queryBuilder)
     {
         foreach ($this->parameters as $parameter) {
-            if($parameter->getDatabaseFilterField() !== null && $parameter->getHasInput()) {
+            if ($parameter->getDatabaseFilterField() !== null && $parameter->getHasInput()) {
                 $this->attachParameterToQueryBuilder($queryBuilder, $parameter);
             }
         }
@@ -91,19 +96,19 @@ class ParameterCollection
     public function afterRetrievalProcess(&$data)
     {
         $filterParameters = [];
-        foreach($this->parameters as $param) {
+        foreach ($this->parameters as $param) {
             if ($param->getHasInput() && $param->getAfterDataFilter() instanceof \Closure) {
                 $filterParameters[] = $param;
             }
         }
 
-        if(!empty($filterParameters)) {
+        if (!empty($filterParameters)) {
             foreach ($data AS $key => &$row) {
                 foreach ($filterParameters as $param) {
-                    /** @var Parameter $param*/
+                    /** @var Parameter $param */
                     $filter = $param->getAfterDataFilter();
                     $removeRow = !$filter($row, $param);
-                    if($removeRow) {
+                    if ($removeRow) {
                         unset($data[$key]);
                         break;
                     }
@@ -118,7 +123,7 @@ class ParameterCollection
      */
     protected function attachParameterToQueryBuilder(&$queryBuilder, $parameter)
     {
-        switch($parameter->getComparison()) {
+        switch ($parameter->getComparison()) {
             case Comparison::AFTER:
             case Comparison::GREATER_THAN:
                 $queryBuilder->andWhere(
@@ -163,7 +168,7 @@ class ParameterCollection
                     [
                         'like',
                         $parameter->getDatabaseFilterField(),
-                        $parameter->getDatabaseFilterValue()[0]. '%',
+                        $parameter->getDatabaseFilterValue()[0] . '%',
                         false
                     ]
                 );
@@ -195,8 +200,15 @@ class ParameterCollection
                 );
                 break;
             case Comparison::ONE_OF:
-                $queryBuilder->andWhere(['in', $parameter->getDatabaseFilterField(), $parameter->getDatabaseFilterValue()]);
+                $queryBuilder->andWhere(
+                    ['in', $parameter->getDatabaseFilterField(), $parameter->getDatabaseFilterValue()]
+                );
                 break;
+        }
+
+        $additionalFilter = $parameter->getAdditionalDatabaseFilter();
+        if ($additionalFilter instanceof \Closure) {
+            $additionalFilter($queryBuilder);
         }
     }
 

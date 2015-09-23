@@ -26,7 +26,7 @@ class Module extends \yii\base\Module
             'sourceLanguage' => 'en-US',
             'basePath' => __DIR__ . '/messages',
             'fileMap' => [
-                    'modules/parameters' => 'parameters.php',
+                'modules/parameters' => 'parameters.php',
             ],
         ];
     }

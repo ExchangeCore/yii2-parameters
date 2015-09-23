@@ -135,7 +135,7 @@ class Type extends Object
     protected static function getTextTypeComparisons()
     {
         return Comparison::EQUALS | Comparison::NOT_EQUALS | Comparison::NULL | Comparison::NOT_NULL
-            | Comparison::STARTS_WITH | Comparison::CONTAINS | Comparison::ENDS_WITH;
+        | Comparison::STARTS_WITH | Comparison::CONTAINS | Comparison::ENDS_WITH;
     }
 
     protected static function getListTypeComparisons()
@@ -146,7 +146,7 @@ class Type extends Object
     protected static function getDateTypeComparisons()
     {
         return Comparison::EQUALS | Comparison::NULL | Comparison::NOT_NULL | Comparison::AFTER | Comparison::BEFORE
-            | Comparison::BETWEEN;
+        | Comparison::BETWEEN;
     }
 
     protected static function getNumericTypeComparisons()

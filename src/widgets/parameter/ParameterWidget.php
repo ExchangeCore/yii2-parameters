@@ -28,7 +28,7 @@ class ParameterWidget extends Widget
     public function init()
     {
         parent::init();
-        if($this->loadingWidgetID === null) {
+        if ($this->loadingWidgetID === null) {
             $loadingWidget = Module::getInstance()->get('loadingWidget');
             $this->loadingWidgetID = $loadingWidget->getId();
         }
@@ -39,7 +39,7 @@ class ParameterWidget extends Widget
         $view = $this->getView();
         ParameterAsset::register($view);
         JuiAsset::register($view);
-        if(substr(\Yii::$app->language, 0, 2) !== 'en') {
+        if (substr(\Yii::$app->language, 0, 2) !== 'en') {
             $assetBundle = DatePickerLanguageAsset::register($view);
             $assetBundle->language = \Yii::$app->language;
         }
@@ -70,7 +70,7 @@ class ParameterWidget extends Widget
         $options['types'] = Type::getTypeList();
         $options['loaderElement'] = '#' . $this->loadingWidgetID;
         $options['language'] = $this->getLanguageStrings();
-        foreach($this->parameters AS $parameter) {
+        foreach ($this->parameters AS $parameter) {
             /** @var Parameter $parameter */
             if ($parameter->getKey() !== null) {
                 $options['parameters'][$parameter->getKey()] = $parameter->getJsObject();
