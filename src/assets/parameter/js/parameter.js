@@ -10,6 +10,7 @@
     $.ec.parameterWidget.defaults = {
         "autoRun": false,
         "autoShow": false,
+        "reloadPage": false,
         "collapseOnRun": true,
         "runUrl": "#",
         "loaderElement": null,
@@ -105,7 +106,7 @@
 
             self.element.find('.parameter-form').on('submit', function (e) {
                 e.preventDefault();
-                self.processSubmit();
+                self.startSubmit();
             });
 
             self.triggerEvent('init', self);
@@ -138,6 +139,39 @@
             }
         },
 
+        startSubmit: function () {
+            var self = this;
+            if (self.settings.reloadPage !== false) {
+                var url = self.settings.reloadPage;
+                var queryString = $.param(self.getQueryStringData());
+                if (url.indexOf('?') > -1){
+                    url += '&' + queryString;
+                }else{
+                    url += '?' + queryString;
+                }
+                window.location.href = url;
+                return;
+            }
+            self.processSubmit();
+        },
+
+        getQueryStringData: function() {
+            var self = this;
+            var data = {};
+            var paramCounter = 0;
+            $.each(self._parameters, function (key, param) {
+                if (param.shown) {
+                    data['param' + paramCounter] = {
+                        "key": param.key,
+                        "comparison": param.comparison,
+                        "values": param.value
+                    };
+                    paramCounter++;
+                }
+            });
+            return data;
+        },
+
         processSubmit: function () {
             var self = this;
             self.element.find('.btn-submit').prop('disabled', true);
@@ -152,22 +186,15 @@
 
             self.parametersElement.find('.alert').alert('close');
 
-            var data = {}, paramCounter = 0;
-
+            var data = self.getQueryStringData();
             var printCriteriaHtml = '<ul>';
             $.each(self._parameters, function (key, param) {
                 if (param.shown) {
-                    data['param' + paramCounter] = {
-                        "key": param.key,
-                        "comparison": param.comparison,
-                        "values": param.value
-                    };
                     printCriteriaHtml += '<li>' +
                         param.displayName + ' ' +
                         self.getParameterComparison(param).label + ' ' +
                         self.getPrintValueHtml(param) +
                         '</li>';
-                    paramCounter++;
                 }
             });
             printCriteriaHtml += '</ul>';

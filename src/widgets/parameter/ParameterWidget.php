@@ -21,6 +21,7 @@ class ParameterWidget extends Widget
     public $ajaxRequestType = 'POST';
     public $autoRun = false;
     public $autoShow = false;
+    public $reloadPage = false;
     public $collapseOnRun = true;
     public $loadingWidgetID;
     public $parameters = [];
@@ -65,6 +66,7 @@ class ParameterWidget extends Widget
         $options['ajaxSettings']['type'] = $this->ajaxRequestType;
         $options['autoRun'] = $this->autoRun;
         $options['autoShow'] = $this->autoShow;
+        $options['reloadPage'] = $this->reloadPage;
         $options['collapseOnRun'] = $this->collapseOnRun;
         $options['comparisons'] = Comparison::getComparisonList();
         $options['types'] = Type::getTypeList();
