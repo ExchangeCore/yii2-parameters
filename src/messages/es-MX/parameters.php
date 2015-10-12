@@ -19,6 +19,7 @@
 return [
     'Add Filter' => 'Agregar filtro',
     'An unknown error has occurred' => 'Un error desconocido ha ocurrido',
+    'Cancel' => 'cancelar',
     'False' => 'falso',
     'Loading Please Wait...' => 'Cargando por favor espere...',
     'No filters applied' => 'No hay filtros aplicados',

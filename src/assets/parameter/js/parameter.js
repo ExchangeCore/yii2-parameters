@@ -21,6 +21,7 @@
             "sNoFiltersApplied": "No filters applied",
             "sNoFiltersAvailable": "No filters available",
             "sRemoveFilter": "Remove Filter",
+            "sCancel": "Cancel",
             "sRequired": "You cannot remove this filter, it is required",
             "sUnknownError": "An unknown error has occurred"
         },
@@ -176,6 +177,8 @@
             var self = this;
             self.element.find('.btn-submit').prop('disabled', true);
             if (self._loaderElement !== null) {
+                self._loaderElement.data('LoadingWidget')._dialog
+                    .append('<div class="btn btn-danger cancel">' + self.settings.language.sCancel + '</div>');
                 self._loaderElement.data('LoadingWidget').startLoading();
             }
             self.triggerEvent('submit', self);
@@ -269,12 +272,16 @@
                     if (self._loaderElement !== null) {
                         self._loaderElement.data('LoadingWidget').finishLoading();
                     }
+                    self._loaderElement.data('LoadingWidget')._dialog.find('.cancel').remove();
                     self.element.find('.btn-submit').prop('disabled', false);
                 }
             });
             $.extend(opts.data, data);
 
-            $.ajax(opts);
+            var request = $.ajax(opts);
+            self._loaderElement.data('LoadingWidget')._dialog.find('.cancel').on('click', function(){
+                request.abort();
+            });
         },
 
         removeParameter: function (parameter) {

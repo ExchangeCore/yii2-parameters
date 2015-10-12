@@ -90,6 +90,7 @@ class ParameterWidget extends Widget
             'sNoFiltersApplied' => Yii::t('modules/parameters', 'No filters applied'),
             'sNoFiltersAvailable' => Yii::t('modules/parameters', 'No filters available'),
             'sRemoveFilter' => Yii::t('modules/parameters', 'Remove Filter'),
+            'sCancel' => Yii::t('modules/parameters', 'Cancel'),
             'sRequired' => Yii::t('modules/parameters', 'You cannot remove this filter, it is required'),
             'sUnknownError' => Yii::t('modules/parameters', 'An unknown error has occurred')
         ];
